@@ -15,8 +15,12 @@
 
 #ifdef SUNXI_BL31_IN_DRAM
 
+#ifndef BL31_BASE
 #define BL31_BASE			SUNXI_DRAM_BASE
-#define BL31_LIMIT			(SUNXI_DRAM_BASE + 0x40000)
+#endif
+#ifndef BL31_LIMIT
+#define BL31_LIMIT			(BL31_BASE + 0x40000)
+#endif
 
 #define MAX_XLAT_TABLES			4
 #define PLAT_VIRT_ADDR_SPACE_SIZE	(1ULL << 32)

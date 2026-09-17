@@ -62,6 +62,13 @@ for optional features.
    instead. If both native and SCPI methods are included, SCPI will be favoured
    if SCP support is detected.
 
+-  ``SUNXI_BL31_IN_DRAM`` : Place BL31 in DRAM instead of SRAM A2. When enabled,
+   TF-A automatically maps the DRAM execution window, enables device tree
+   amendment (``SUNXI_AMEND_DTB := 1``), and inserts a ``reserved-memory`` node
+   to protect BL31 from the non-secure operating system. Platforms may override
+   ``BL31_BASE`` and ``BL31_LIMIT`` in their platform header (defaulting to
+   ``SUNXI_DRAM_BASE``).
+
 -  ``SUNXI_SETUP_REGULATORS`` : On SoCs that typically ship with a PMIC
    power management controller, BL31 tries to set up all needed power rails,
    programming them to their respective voltages. That allows bootloader
@@ -129,13 +136,21 @@ The mapping we use on those SoCs is as follows:
    0 64K         16M       160M    192M  256M             virtual address
 
 
-A133, H616 SoCs
-~~~~~~~~~~~~~~~
+A133, H616, and A733 SoCs
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The H616 lacks the secure SRAM region present on the other SoCs, also lacks the
 "ARISC" management processor (SCP) we use.
 
 In A133 the size of SRAM A2 section is limited to 64KB.
+
+On the A733, U-Boot SPL is approximately 136 KB due to embedded LPDDR5
+PHY/PMU training firmware, leaving insufficient contiguous SRAM to host BL31
+alongside SPL without collision. BL31 is therefore placed in DRAM at
+0x48000000 using ``SUNXI_BL31_IN_DRAM := 1``. When this option is enabled,
+TF-A automatically amends the device tree passed to BL33 with a
+``reserved-memory`` node (``tf-a@48000000``) to protect the firmware region
+from the non-secure operating system.
 
 BL31 thus needs to run from DRAM, which prevents our compressed virtual memory
 map described above. Since running in DRAM also lifts the restriction of the

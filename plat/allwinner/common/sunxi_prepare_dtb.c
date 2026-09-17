@@ -27,8 +27,11 @@ void sunxi_prepare_dtb(void *fdt)
 	}
 
 #ifdef SUNXI_BL31_IN_DRAM
+	char nodename[32];
+
+	snprintf(nodename, sizeof(nodename), "tf-a@%lx", (unsigned long)BL31_BASE);
 	/* Reserve memory used by Trusted Firmware. */
-	if (fdt_add_reserved_memory(fdt, "tf-a@40000000", BL31_BASE,
+	if (fdt_add_reserved_memory(fdt, nodename, BL31_BASE,
 				    BL31_LIMIT - BL31_BASE)) {
 		WARN("Failed to add reserved memory nodes to DT.\n");
 	}
