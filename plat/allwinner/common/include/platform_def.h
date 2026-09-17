@@ -75,7 +75,14 @@
 
 #define PLATFORM_CLUSTER_COUNT		U(1)
 #define PLATFORM_CORE_COUNT		SUNXI_CPU_COUNT
+
+#ifndef PLATFORM_STACK_SIZE
+#if defined(SUNXI_BL31_IN_DRAM)
+#define PLATFORM_STACK_SIZE		0x1000
+#else
 #define PLATFORM_STACK_SIZE		(0x1000 / PLATFORM_CORE_COUNT)
+#endif
+#endif
 
 #ifndef SPD_none
 #ifndef BL32_BASE
