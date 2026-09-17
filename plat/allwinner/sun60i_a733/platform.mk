@@ -23,6 +23,18 @@ include plat/allwinner/common/allwinner-common.mk
 include plat/allwinner/common/allwinner-common-a55.mk
 
 BL31_SOURCES		+=	lib/cpus/${ARCH}/cortex_a76.S
+ERRATA_A76_1073348	:=	1
+ERRATA_A76_1130799	:=	1
+ERRATA_A76_1165522	:=	1
+ERRATA_A76_1220197	:=	1
+ERRATA_A76_1257314	:=	1
+ERRATA_A76_1262606	:=	1
+ERRATA_A76_1262888	:=	1
+ERRATA_A76_1275112	:=	1
+ERRATA_A76_1286807	:=	1
+ERRATA_A76_1791580	:=	1
+ERRATA_A76_1868343	:=	1
+ERRATA_A76_1946160	:=	1
 
 # The Cortex-A76 has no 32-bit state to save
 CTX_INCLUDE_AARCH32_REGS	:=	0
