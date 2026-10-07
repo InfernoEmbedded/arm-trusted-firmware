@@ -71,6 +71,7 @@ $(eval $(call add_define,SUNXI_AMEND_DTB))
 
 ifeq (${SUNXI_AMEND_DTB},1)
 BL31_SOURCES		+=	common/fdt_fixup.c			\
+				common/fdt_wrappers.c			\
 				${AW_PLAT}/common/sunxi_prepare_dtb.c
 endif
 
